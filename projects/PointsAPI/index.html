@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Home &bull; Z609</title>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+		<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		
+		<style>
+			html, body {
+				margin: 0;
+				padding: 0;
+			}
+			body {
+				margin-top: 75px !important;
+			}
+			#wrapper {
+				min-height: 80vh;
+			}
+			footer {
+				margin-top: 15px;
+				padding: 15px;
+				color: #555;
+				font-size: 10pt;
+				text-align: left;
+				border-top: 1px solid #ccc;
+			}
+			h4.documentation-title {
+				font-weight: bold;
+				padding: 15px;
+				margin-bottom: 15px;
+				border-bottom: 1px solid #ccc;
+				color: #000;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="navbar navbar-inverse navbar-fixed-top">
+		  <div class="container">
+			<div class="navbar-header">
+			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			  </button>
+			  <a class="navbar-brand" href="http://Z609.github.io/">Z609</a>
+			</div>
+
+			<div class="collapse navbar-collapse" id="header">
+			  <ul class="nav navbar-nav">
+				<li><a href="http://Z609.github.io/">Home</a></li>
+				<li class="dropdown active">
+				  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Projects <span class="caret"></span></a>
+				  <ul class="dropdown-menu">
+					<li class="active"><a href="http://Z609.github.io/projects/PointsAPI/">PointsAPI</a></li>
+				  </ul>
+				</li>
+			  </ul>
+			  <ul class="nav navbar-nav navbar-right">
+				<li><a href="https://www.spigotmc.org/members/7550/" target="_blank">Spigot Profile</a></li>
+				<li><a href="https://github.com/Z609/" target="_blank">View on GitHub</a></li>
+			  </ul>
+			</div>
+		  </div>
+		</header>
+		
+		<div id="wrapper" class="container">
+			<section class="well well-lg">
+				<h2>Z609 <small>PointsAPI</small></h2>
+			</section>
+			<a href="https://www.spigotmc.org/resources/1978/" target="_blank">PointsAPI</a> is a small points system. It isn't the most efficient thing on the planet, but it's one 
+			of the best points plugins out there. It was originally intended to be a custom plugin for a smaller server that requested that I code a plugin for them. I ended up 
+			releasing it because they said they wouldn't mind if I released it. Please note that upon decompilation of the code, you will notice a bunch of inefficient code. I 
+			will re-code it sometime in the future to be more efficient, but for now, I don't have time. Regardless, here is the documentation, which has been on many other sites 
+			before but has been lost because of constant website switchovers.
+			
+			<h4 class="documentation-title">Set player's points</h4>
+			You can use <strong>PointsAPI#setPoints();</strong> to set a player's points. You are required <strong>two</strong> arguments. The first argument must be a player 
+			representation. The first argument can be one of the following:<br><br>
+			<ul>
+				<li>org.bukkit.entity.Player - An online Bukkit player</li>
+				<li>java.util.UUID - UUID for a player (<strong>org.bukkit.entity.Player#getUniqueId()</strong>)</li>
+				<li>java.lang.String - Player's UUID (in a String <strong>java.util.UUID#toString()</strong>) to be affected.</li>
+			</ul><br>
+			The second argument must be an integer. This will set the amount of points right away.<br><br>
+			Example:
+			<code><pre>@EventHandler
+public void onInteract(PlayerInteractEvent event){ // It's a player interact event!
+	if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK){ // Only when right clicking
+		Player player = event.getPlayer(); // Fetch the player for usage
+		if(player.getItemInHand() != null && player.getItemInHand().getType() == Material.POTATO_ITEM){ // If the item in their hand is a potato
+			player.sendMessage("Thank you for clicking my potato :)"); // Send them a cute message
+			player.playSound(player.getLocation(), Sound.CLICK, 1.0F, 1.0F); // Play them a fancy sound
+			PointsAPI.setPoints(player, 300); // Set their balance to 300
+		}
+	}
+}</pre></code>
+			
+			<h4 class="documentation-title">Add/take player's points</h4>
+			You can use <strong>PointsAPI#addPoints();</strong> or <strong>PointsAPI#takePoints();</strong> to add a deduct a player's balance. You are required <strong>two</strong> arguments. The first argument must be a player 
+			representation. The first argument can be one of the following:<br><br>
+			<ul>
+				<li>org.bukkit.entity.Player - An online Bukkit player</li>
+				<li>java.util.UUID - UUID for a player (<strong>org.bukkit.entity.Player#getUniqueId()</strong>)</li>
+				<li>java.lang.String - Player's UUID (in a String <strong>java.util.UUID#toString()</strong>) to be affected.</li>
+			</ul><br>
+			The second argument must be an integer. This will add or deduct the balance depending on the method used.<br><br>
+			Example adding points:
+			<code><pre>@EventHandler
+public void onInteract(PlayerInteractEvent event){ // It's a player interact event!
+	if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK){ // Only when right clicking
+		Player player = event.getPlayer(); // Fetch the player for usage
+		if(player.getItemInHand() != null && player.getItemInHand().getType() == Material.POTATO_ITEM){ // If the item in their hand is a potato
+			player.sendMessage("Thank you for clicking my potato :)"); // Send them a cute message
+			player.playSound(player.getLocation(), Sound.CLICK, 1.0F, 1.0F); // Play them a fancy sound
+			PointsAPI.addPoints(player, 300); // Increase their balance by 300
+		}
+	}
+}</pre></code><br><br>
+			Example deducting points:
+			<code><pre>@EventHandler
+public void onInteract(PlayerInteractEvent event){ // It's a player interact event!
+	if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK){ // Only when right clicking
+		Player player = event.getPlayer(); // Fetch the player for usage
+		if(player.getItemInHand() != null && player.getItemInHand().getType() == Material.POTATO_ITEM){ // If the item in their hand is a potato
+			player.sendMessage("Don't click my potato!"); // Send them a mean message
+			player.playSound(player.getLocation(), Sound.CLICK, 1.0F, 1.0F); // Play them a fancy sound
+			PointsAPI.takePoints(player, 300); // Decrease their balance by 300
+		}
+	}
+}</pre></code>
+		</div>
+		
+		<div id="footer-wrapper" class="container">
+			<footer>
+				Copyright &copy; 2015-2016 Z609. Use of name of organization "OptimusMC" is part of the <a href="https://optimusmc.info" target="_blank">OptimusMC.Info site</a>.
+			</footer>
+		</div>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	</body>
+</html>
